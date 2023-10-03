@@ -30,6 +30,7 @@ int main()
         Note("Note 2", "This is the content of Note 2."),
         Note("Note 3", "Note 3 content."),
         Note("Note 4", "Note 4 content.")};
+        
 
     for (int i = 0; i < NotesSize; ++i)
     {
