@@ -9,11 +9,13 @@ class Note
 private:
     string title;
     string content;
+    static int noteCount;
 
 public:
     Note(const string &t, const string &c) : title(t), content(c)
     {
         cout << "Creating Note: " << title << endl;
+        noteCount++;
     }
 
     void display()
@@ -32,7 +34,14 @@ public:
     {
         return title;
     }
+
+    static int getNoteCount()
+    {
+        return noteCount;
+    }
 };
+
+int Note::noteCount = 0;
 
 class Category
 {
@@ -124,8 +133,8 @@ int main()
         cout << "3. Update a note" << endl;
         cout << "4. Display a category" << endl;
         cout << "5. Display a note" << endl;
-        cout << "6. Exit" << endl;
-        cout << "Enter your choice: ";
+        cout << "6. Get total note count" << endl;
+        cout << "7. Exit" << endl;
         getline(cin, choice);
 
         if (choice == "1")
@@ -226,6 +235,10 @@ int main()
             }
         }
         else if (choice == "6")
+        {
+            cout << "Total number of notes: " << Note::getNoteCount() << endl;
+        }
+        else if (choice == "7")
         {
             break;
         }
