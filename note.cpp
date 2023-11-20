@@ -4,7 +4,14 @@
 
 using namespace std;
 
-class Note
+class Printable
+{
+public:
+    virtual void print() const = 0;
+    virtual ~Printable() {}
+};
+
+class Note : public Printable
 {
 private:
     string title;
@@ -18,10 +25,9 @@ public:
         noteCount++;
     }
 
-    void display()
+    void display() const
     {
-        cout << "Title: " << title << endl;
-        cout << "Content: " << content << endl;
+        print();
     }
 
     void updateContent(const string &newContent)
@@ -39,11 +45,17 @@ public:
     {
         return noteCount;
     }
+
+    void print() const override
+    {
+        cout << "Title: " << title << endl;
+        cout << "Content: " << content << endl;
+    }
 };
 
 int Note::noteCount = 0;
 
-class Category
+class Category : public Printable
 {
 private:
     string categoryName;
@@ -60,13 +72,9 @@ public:
         notes.push_back(note);
     }
 
-    void listNotes()
+    void listNotes() const
     {
-        cout << "Notes in Category '" << categoryName << "':" << endl;
-        for (Note *note : notes)
-        {
-            note->display();
-        }
+        print();
     }
 
     string getCategoryName() const
@@ -85,9 +93,18 @@ public:
         }
         return nullptr;
     }
+
+    void print() const override
+    {
+        cout << "Notes in Category '" << categoryName << "':" << endl;
+        for (Note *note : notes)
+        {
+            note->print();
+        }
+    }
 };
 
-class User
+class User : public Printable
 {
 private:
     string userName;
@@ -115,6 +132,15 @@ public:
         }
         return nullptr;
     }
+
+    void print() const override
+    {
+        cout << "User: " << userName << endl;
+        for (Category *category : categories)
+        {
+            category->print();
+        }
+    }
 };
 
 int main()
@@ -123,6 +149,8 @@ int main()
     cout << "Enter your username: ";
     getline(cin, username);
     User *user = new User(username);
+
+    user->print();
 
     string choice;
     do
